@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  zkey-server:
+    container_name: zkey-server
+    image: zkey-upload-server
+    build: .
+    restart: always
+    command: start
+    ports:
+      - 8080:8080
+    depends_on:
+      - zkey-redis
+
+  zkey-redis:
+    container_name: zkey-redis
+    image: redis
+    restart: always
+    volumes:
+      - ./redis/data:/data
+
+  zkey-init:
+    image: zkey-upload-server
+    restart: on-failure
+    command: initRedis
+    depends_on:
+      - zkey-server
