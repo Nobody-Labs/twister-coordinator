@@ -10,6 +10,7 @@ import {
 
 import processUpload from './endpoint/processUpload';
 import contributorStatus from './endpoint/contributorStatus';
+import zkeyFiles from './endpoint/zkeyFiles';
 
 /**
  * @dev production will specify cors
@@ -20,6 +21,8 @@ import contributorStatus from './endpoint/contributorStatus';
  */
 const app = express();
 app.use(cors());
+
+app.use('/zkeyFiles', zkeyFiles);
 
 /**
  * @dev authentication is only granted to the current contributor according to the 
