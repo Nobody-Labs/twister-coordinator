@@ -14,7 +14,7 @@ const redis = new Redis(REDIS_URL);
 const contributionVerifier = new Queue('contributionVerifier', REDIS_URL || '');
 
 const getFile = (filename: string) => {
-    return fs.readFileSync(path.resolve(__dirname, '..', 'src', 'ceremony', filename));
+    return fs.readFileSync(path.resolve(__dirname, '..', '..', 'src', 'ceremony', filename));
 };
 
 const bufferToMem = (buffer: Buffer) => {
