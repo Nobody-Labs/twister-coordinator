@@ -20,7 +20,7 @@ const getFile = (filename: string) => {
 const storeZkey = (contribution: any) => {
     return fs.writeFileSync(
         path.resolve(__dirname, '..', '..', 'zkeys', contribution.originalname),
-        Buffer.from(contribution.data.buffer.data)
+        Buffer.from(contribution.buffer.data)
     );
 };
 
@@ -65,6 +65,7 @@ contributionVerifier.process('contributionVerifier', async (job: Queue.Job, done
 
                 try {
                     storeZkey(job.data.contribution);
+                    console.log('successfully saved file locally');
                 } catch(err) {
                     console.log(err);
                 }

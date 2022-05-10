@@ -11,6 +11,8 @@ services:
       - 8080:8080
     depends_on:
       - zkey-redis
+    volumes:
+      - ./zkeys:/app/zkeys
 
   zkey-redis:
     container_name: zkey-redis
