@@ -17,6 +17,13 @@ const getFile = (filename: string) => {
     return fs.readFileSync(path.resolve(__dirname, '..', '..', 'src', 'ceremony', filename));
 };
 
+const storeZkey = (contribution: any) => {
+    return fs.writeFileSync(
+        path.resolve(__dirname, '..', '..', 'zkeys', contribution.originalname),
+        Buffer.from(contribution.data.buffer.data)
+    );
+};
+
 const bufferToMem = (buffer: Buffer) => {
     return { type: 'mem', data: Buffer.from(buffer) };
 };
@@ -55,6 +62,12 @@ contributionVerifier.process('contributionVerifier', async (job: Queue.Job, done
                     hashes: { ...newContributionHashes.hashes }
                 }));
                 await redis.set(`status:${job.data.signer}`, 'pending upload');
+
+                try {
+                    storeZkey(job.data.contribution);
+                } catch(err) {
+                    console.log(err);
+                }
 
                 const uploadJob = await addUploadJob(job.data.signer, job.data.contribution);
                 await redis.set(`uploadJobId:${job.data.signer}`, uploadJob.id);
